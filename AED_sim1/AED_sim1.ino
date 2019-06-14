@@ -52,7 +52,7 @@ void init_mp3(){
   mp3.setSynchronous(true);
 }
 
-void install_aed(){
+void aed_play_init_sequence(){
   play(1);
   wait_for_btn(2, 0, BLUE_BTN_PIN);
   play(3);
@@ -61,7 +61,7 @@ void install_aed(){
   wait_for_btn(6, 0, BLUE_BTN_PIN);
 }
 
-void resuscitation(bool first_run){
+void aed_play_resuscitation(bool first_run){
   play(7);
   delay(1000);
   wait_for_btn(8, RED_BTN_PIN);
@@ -80,12 +80,12 @@ void resuscitation(bool first_run){
 void setup() {
   setup_buttons();
   init_mp3();
-  install_aed();
+  aed_play_init_sequence();
   bFirstResuscitation = true;
 }
 
 void loop() {
-  resuscitation(bFirstResuscitation);
+  aed_play_resuscitation(bFirstResuscitation);
   bFirstResuscitation = false;
   mp3.check();
 }
