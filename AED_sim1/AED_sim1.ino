@@ -70,6 +70,13 @@ void setup_buttons(){
   pinMode(RED_BTN_PIN, INPUT_PULLUP);
 }
 
+void check_delay_mode(){
+  delay(100);
+  if(is_btn_pressed(RED_BTN_PIN)){
+    while(1) delay(1000);
+  }
+}
+
 void init_mp3(){
   mp3.begin();
   mp3.setCallback(nullptr);
@@ -89,6 +96,7 @@ void aed_play_resuscitation(bool first_run){
   play(7);
   delay(1000);
   wait_for_btn(8, RED_BTN_PIN);
+  delay(500);
   play(9);
   if(first_run){
     play(10);
@@ -104,6 +112,7 @@ void aed_play_resuscitation(bool first_run){
 void setup() {
   setup_buttons();
   init_mp3();
+  check_delay_mode();
   aed_play_init_sequence();
   bFirstResuscitation = true;
 }
