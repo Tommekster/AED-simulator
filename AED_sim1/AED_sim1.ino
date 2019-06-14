@@ -13,7 +13,6 @@ const uint8_t RED_BTN_PIN = 3;
 
 // Define global variables
 MD_YX5300 mp3(ARDUINO_RX, ARDUINO_TX);
-bool bUseSynch = true;   // use synchronous? 
 bool bFirstResuscitation = true;
 
 void play(uint8_t track){
@@ -33,7 +32,7 @@ void wait_for_btn(uint8_t track, uint8_t btn){
 void init_mp3(){
   mp3.begin();
   mp3.setCallback(nullptr);
-  mp3.setSynchronous(bUseSynch);
+  mp3.setSynchronous(true);
 }
 
 void install_aed(){
@@ -53,7 +52,7 @@ void resuscitation(bool first_run){
   if(first_run){
     play(10);
     play(12);
-    wait_for_btn(11, RED_BTN_PIN);
+    wait_for_btn(11, BLUE_BTN_PIN);
     play(13);
   } else {
     play(15);
@@ -70,4 +69,5 @@ void setup() {
 void loop() {
   resuscitation(bFirstResuscitation);
   bFirstResuscitation = false;
+  mp3.check();
 }
