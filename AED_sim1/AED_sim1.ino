@@ -1,4 +1,4 @@
-// Test program for the MD_YX5300 library
+// AED Simulator, an audio player playing records with resusctitation instructions
 //
 
 #include <MD_YX5300.h>

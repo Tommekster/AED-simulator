@@ -10,12 +10,15 @@ It is based on *Arduino Nano* and [MP3/WAV player] with *YX5300* chipset.
 
 ## Hardware connections
 
-| Player |     | Arduino Nano |
-|--------|-----|--------------|
-| VCC    | <-> | VCC          |
-| GND    | <-> | GND          |
-| RX     | <-> | TX           |
-| TX     | <-> | RX           |
+| Player |     | Arduino Nano |     | Buttons |
+|--------|-----|--------------|-----|---------|
+| VCC    | <-> | VCC          |     |         |
+| GND    | <-> | GND          | <-> | GND     |
+| RX     | <-> | TX (D0)      |     |         |
+| TX     | <-> | RX (D1)      |     |         |
+|        |     | Reset        | <-> | Green   |
+|        |     | D2           | <-> | Blue    |
+|        |     | D3           | <-> | Red     |
 
 # Software
 
@@ -33,4 +36,4 @@ In quiet mode the device is powered, silent and ready. To switch the device to q
 ## Normal mode
 
 In normal mode the device plays AED instructions. To switch the device to normal mode press the green button. 
-Then listen the instructions and enyoj. 
+Then listen the instructions and enjoy. 
