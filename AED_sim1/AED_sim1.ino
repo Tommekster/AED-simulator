@@ -41,6 +41,11 @@ void wait_for_btn(uint8_t track, uint8_t btn){
   wait_for_btn(track, -1, btn);
 }
 
+void setup_buttons(){
+  pinMode(BLUE_BTN_PIN, INPUT_PULLUP);
+  pinMode(RED_BTN_PIN, INPUT_PULLUP);
+}
+
 void init_mp3(){
   mp3.begin();
   mp3.setCallback(nullptr);
@@ -73,6 +78,7 @@ void resuscitation(bool first_run){
 }
 
 void setup() {
+  setup_buttons();
   init_mp3();
   install_aed();
   bFirstResuscitation = true;
