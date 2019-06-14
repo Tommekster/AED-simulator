@@ -15,26 +15,50 @@ const uint8_t RED_BTN_PIN = 3;
 MD_YX5300 mp3(ARDUINO_RX, ARDUINO_TX);
 bool bFirstResuscitation = true;
 
-void receive_msg(){
-  while(!mp3.check());
-}
-
-void block(){
-  do{
-    receive_msg();
+bool receive_msg(bool(*interruptor)(void)){
+  while(!mp3.check()){
+    if(interruptor != nullptr && interruptor()){
+      return true;
+    }
   }
-  while(mp3.getStsCode() != MD_YX5300::STS_FILE_END);
+  return false;
 }
 
-void play(uint8_t track){
+bool block(bool(*interruptor)(void)){
+  bool interrupted = false;
+  do{
+    interrupted = receive_msg(interruptor);
+  }
+  while((mp3.getStsCode() != MD_YX5300::STS_FILE_END) && !interrupted);
+  return interrupted;
+}
+
+bool play(uint8_t track, bool(*interruptor)(void) = nullptr){
   mp3.playTrack(track + 1);
-  block();
+  return block(interruptor);
+}
+
+bool is_btn_pressed(uint8_t buttonPin){
+  return digitalRead(buttonPin) == LOW;
+}
+
+uint8_t btn_interruptor_btnPin;
+bool btn_interruptor(){
+  return is_btn_pressed(btn_interruptor_btnPin);
 }
 
 void wait_for_btn(uint8_t track1, int8_t track2, uint8_t btn){
-  play(track1);
-  if(track2 >= 0)
-    play(track2);
+  bool interrupted = false;
+  bool first_play = true;
+  btn_interruptor_btnPin = btn;
+  while(!interrupted){
+    interrupted = play(track1, first_play ? nullptr : btn_interruptor);
+    first_play = false;
+    if(interrupted) break;
+    if(track2 >= 0)
+      interrupted = play(track2, btn_interruptor);
+    if(is_btn_pressed(btn)) break;
+  }
 }
 
 void wait_for_btn(uint8_t track, uint8_t btn){
