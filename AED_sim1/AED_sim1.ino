@@ -3,6 +3,12 @@
 
 #include <MD_YX5300.h>
 
+enum play_status_t {
+  PST_STOPPED = 0x00,
+  PST_PLAY = 0x01,
+  PST_PAUSE = 0x02,
+};
+
 // Connections for serial interface to the YX5300 module
 const uint8_t ARDUINO_RX = 0;    // connect to TX of MP3 Player module
 const uint8_t ARDUINO_TX = 1;    // connect to RX of MP3 Player module
@@ -15,8 +21,17 @@ const uint8_t RED_BTN_PIN = 3;
 MD_YX5300 mp3(ARDUINO_RX, ARDUINO_TX);
 bool bFirstResuscitation = true;
 
+void block(){
+  do{
+    delay(100);
+    mp3.queryStatus();
+  }
+  while((mp3.getStsData() & 0x00ff) == PST_PLAY);
+}
+
 void play(uint8_t track){
   mp3.playTrack(track + 1);
+  block();
 }
 
 void wait_for_btn(uint8_t track1, int8_t track2, uint8_t btn){
