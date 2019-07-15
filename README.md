@@ -6,7 +6,10 @@ AED Simulator is basicly an audio player playing records with resusctitation ins
 
 It is based on *Arduino Nano* and [MP3/WAV player] with *YX5300* chipset. 
 
+As sound amplifier was used [OPEN-SMART 8002A]. 
+
 [MP3/WAV player]: https://www.dx.com/p/uart-control-serial-mp3-music-player-module-for-arduino-avr-arm-pic-blue-silver-2045959#.XQJ3togzY_4
+[OPEN-SMART 8002A]: https://www.dx.com/p/open-smart-8002a-mono-audio-power-amplifier-module-for-arduino-mp3-2005468#.XSw7IegzY_4
 
 ## Hardware connections
 
